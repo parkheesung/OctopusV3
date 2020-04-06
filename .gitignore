@@ -3,3 +3,14 @@
 ################################################################################
 
 /.vs/OctopusFrameworkV3
+/OctopusV3.Builder/bin/Debug
+/OctopusV3.Builder/obj/Debug
+/OctopusV3.Core/bin/Debug/netstandard2.0
+/OctopusV3.Core/obj
+/OctopusV3.Data/bin/Debug/netstandard2.0
+/OctopusV3.Data/obj
+/OctopusV3.DynamicHTML/bin/Debug/netstandard2.0
+/OctopusV3.DynamicHTML/obj
+/OctopusV3.Net.Mvc/bin/Debug
+/OctopusV3.Net.Mvc/obj/Debug
+/packages

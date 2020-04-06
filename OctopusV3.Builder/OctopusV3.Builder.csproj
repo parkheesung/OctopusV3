@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AF4776D0-2C40-4783-B95B-82A5E1776963}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>OctopusV3.Builder</RootNamespace>
+    <AssemblyName>OctopusV3.Builder</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlClient, Version=4.6.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.8.1\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConfigFrm\ConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigFrm\ConfigForm.Designer.cs">
+      <DependentUpon>ConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFrm\CreateControllerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EntityFrm\CreateControllerForm.Designer.cs">
+      <DependentUpon>CreateControllerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFrm\CreateRepositoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EntityFrm\CreateRepositoryForm.Designer.cs">
+      <DependentUpon>CreateRepositoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFrm\EntityCreateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EntityFrm\EntityCreateForm.Designer.cs">
+      <DependentUpon>EntityCreateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFrm\EntityToSpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EntityFrm\EntityToSpForm.Designer.cs">
+      <DependentUpon>EntityToSpForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFrm\SPtoCodeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EntityFrm\SPtoCodeForm.Designer.cs">
+      <DependentUpon>SPtoCodeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\FindHelper.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DbEntity.cs" />
+    <Compile Include="Models\DbTableInfo.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\SystemQuery.cs" />
+    <EmbeddedResource Include="ConfigFrm\ConfigForm.resx">
+      <DependentUpon>ConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EntityFrm\CreateControllerForm.resx">
+      <DependentUpon>CreateControllerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EntityFrm\CreateRepositoryForm.resx">
+      <DependentUpon>CreateRepositoryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EntityFrm\EntityCreateForm.resx">
+      <DependentUpon>EntityCreateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EntityFrm\EntityToSpForm.resx">
+      <DependentUpon>EntityToSpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EntityFrm\SPtoCodeForm.resx">
+      <DependentUpon>SPtoCodeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OctopusV3.Core\OctopusV3.Core.csproj">
+      <Project>{666da213-1e99-42be-bfc4-f52da0034580}</Project>
+      <Name>OctopusV3.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OctopusV3.Data\OctopusV3.Data.csproj">
+      <Project>{43bfcd3a-b6cc-4ec8-9061-4d68af15299a}</Project>
+      <Name>OctopusV3.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OctopusV3.DynamicHTML\OctopusV3.DynamicHTML.csproj">
+      <Project>{f025c49b-24fc-49b0-bb19-037ab9c408ed}</Project>
+      <Name>OctopusV3.DynamicHTML</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OctopusV3.Net.Mvc\OctopusV3.Net.Mvc.csproj">
+      <Project>{3dd20389-d6cd-499b-b500-affabeda386c}</Project>
+      <Name>OctopusV3.Net.Mvc</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
