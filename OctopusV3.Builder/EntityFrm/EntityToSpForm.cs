@@ -129,7 +129,7 @@ namespace OctopusV3.Builder.EntityFrm
 
                         if (identityColumn != null)
                         {
-                            builder.AppendLine($"CREATE PROCEDURE [dbo].[OSP_{entityName}_{roleType}]");
+                            builder.AppendLine($"CREATE PROCEDURE [dbo].[ESP_{entityName}_{roleType}]");
                             builder.AppendLine("(");
                             int num = 0;
                             foreach (DbTableInfo info in tableinfos.Where(x => x.is_identity == false).OrderBy(x => x.is_nullable))

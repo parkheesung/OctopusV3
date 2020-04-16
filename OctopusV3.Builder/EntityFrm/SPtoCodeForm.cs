@@ -248,5 +248,10 @@ namespace OctopusV3.Builder.EntityFrm
         {
             SetResult();
         }
+
+        private void LB_SP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetResult();
+        }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
 
 namespace OctopusV3.Core
 {
@@ -37,6 +40,27 @@ namespace OctopusV3.Core
             {
                 builder.AppendLine($" where {paramData.WhereString}");
             }
+            return builder.ToString();
+        }
+
+        public static string toBetween<T>(this List<T> list, string columnName) where T : IEntity
+        {
+            StringBuilder builder = new StringBuilder(200);
+
+            if (!string.IsNullOrWhiteSpace(columnName))
+            {
+                if (list != null && list.Count > 0)
+                {
+                    int num = 0;
+                    foreach (T item in list)
+                    {
+                        if (num > 0) builder.Append(",");
+                        builder.Append(item.GetValue(columnName));
+                        num++;
+                    }
+                }
+            }
+
             return builder.ToString();
         }
 

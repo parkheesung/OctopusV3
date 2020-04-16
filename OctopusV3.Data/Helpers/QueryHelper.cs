@@ -42,7 +42,12 @@ namespace OctopusV3.Data
             return DynamicQuery.List<T>(paramData);
         }
 
-        public static string Count<T>(this IDynamicQuery paramData) where T : IEntity, new()
+        public static string List<T>(this ISubDynamicQuery paramData) where T : IEntity, new()
+        {
+            return DynamicQuery.List<T>(paramData);
+        }
+
+        public static string Count<T>(this IDynamicQueryBase paramData) where T : IEntity, new()
         {
             return DynamicQuery.Count<T>(paramData);
         }
@@ -212,7 +217,6 @@ namespace OctopusV3.Data
             return query.ToString();
         }
 
-
         public static string List<T>(IDynamicQuery paramData) where T : IEntity, new()
         {
             T target = new T();
@@ -237,7 +241,47 @@ namespace OctopusV3.Data
             return query.ToString();
         }
 
-        public static string Count<T>(IDynamicQuery paramData) where T : IEntity, new()
+        public static string List(string EntityName, ISubDynamicQuery paramData)
+        {
+            StringBuilder query = new StringBuilder(200);
+            query.Append($"SELECT TOP ({paramData.SubPageSize}) resultTable.* FROM");
+            query.Append($"( SELECT TOP ({paramData.SubPageSize * paramData.SubCurPage}) ROW_NUMBER () OVER ");
+            query.Append($" (ORDER BY { paramData.OrderBy }) AS rownumber, *");
+            query.Append($" FROM [{EntityName}]");
+            if (!string.IsNullOrWhiteSpace(paramData.WhereString))
+            {
+                query.Append(" where " + paramData.WhereString);
+            }
+            query.Append(") AS resultTable");
+            query.Append($" WHERE rownumber > {(paramData.SubCurPage - 1) * paramData.SubPageSize}");
+            return query.ToString();
+        }
+
+        public static string List<T>(ISubDynamicQuery paramData) where T : IEntity, new()
+        {
+            T target = new T();
+            StringBuilder query = new StringBuilder(200);
+            query.Append($"SELECT TOP ({paramData.SubPageSize}) resultTable.* FROM");
+            query.Append($"( SELECT TOP ({paramData.SubPageSize * paramData.SubCurPage}) ROW_NUMBER () OVER ");
+            if (!string.IsNullOrWhiteSpace(paramData.OrderBy))
+            {
+                query.Append($" (ORDER BY { paramData.OrderBy }) AS rownumber, *");
+            }
+            else
+            {
+                query.Append($" (ORDER BY { target.TargetColumn } desc) AS rownumber, *");
+            }
+            query.Append($" FROM [{target.TableName}]");
+            if (!string.IsNullOrWhiteSpace(paramData.WhereString))
+            {
+                query.Append(" where " + paramData.WhereString);
+            }
+            query.Append(") AS resultTable");
+            query.Append($" WHERE rownumber > {(paramData.SubCurPage - 1) * paramData.SubPageSize}");
+            return query.ToString();
+        }
+
+        public static string Count<T>(IDynamicQueryBase paramData) where T : IEntity, new()
         {
             T target = new T();
             StringBuilder query = new StringBuilder(200);
@@ -249,7 +293,7 @@ namespace OctopusV3.Data
             return query.ToString();
         }
 
-        public static string Count(string EntityName, IDynamicQuery paramData)
+        public static string Count(string EntityName, IDynamicQueryBase paramData)
         {
             StringBuilder query = new StringBuilder(200);
             query.Append($"SELECT Count(1) FROM [{EntityName}]");

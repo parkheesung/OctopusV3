@@ -90,6 +90,7 @@
             this.LB_SP.ScrollAlwaysVisible = true;
             this.LB_SP.Size = new System.Drawing.Size(290, 328);
             this.LB_SP.TabIndex = 0;
+            this.LB_SP.SelectedIndexChanged += new System.EventHandler(this.LB_SP_SelectedIndexChanged);
             // 
             // groupBox2
             // 
