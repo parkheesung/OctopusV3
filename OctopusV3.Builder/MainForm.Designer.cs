@@ -35,6 +35,7 @@
             this.entityCreateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.entityToSPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createRepositoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createControllerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.databaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sPtoCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,7 +46,7 @@
             this.closeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.createControllerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.entityFromTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -84,7 +85,8 @@
             this.entityCreateToolStripMenuItem,
             this.entityToSPToolStripMenuItem,
             this.createRepositoryToolStripMenuItem,
-            this.createControllerToolStripMenuItem});
+            this.createControllerToolStripMenuItem,
+            this.entityFromTagToolStripMenuItem});
             this.entitiesToolStripMenuItem.Name = "entitiesToolStripMenuItem";
             this.entitiesToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.entitiesToolStripMenuItem.Text = "Entities";
@@ -109,6 +111,13 @@
             this.createRepositoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.createRepositoryToolStripMenuItem.Text = "CreateRepository";
             this.createRepositoryToolStripMenuItem.Click += new System.EventHandler(this.createRepositoryToolStripMenuItem_Click);
+            // 
+            // createControllerToolStripMenuItem
+            // 
+            this.createControllerToolStripMenuItem.Name = "createControllerToolStripMenuItem";
+            this.createControllerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createControllerToolStripMenuItem.Text = "CreateController";
+            this.createControllerToolStripMenuItem.Click += new System.EventHandler(this.createControllerToolStripMenuItem_Click);
             // 
             // databaseToolStripMenuItem
             // 
@@ -182,12 +191,12 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // createControllerToolStripMenuItem
+            // entityFromTagToolStripMenuItem
             // 
-            this.createControllerToolStripMenuItem.Name = "createControllerToolStripMenuItem";
-            this.createControllerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.createControllerToolStripMenuItem.Text = "CreateController";
-            this.createControllerToolStripMenuItem.Click += new System.EventHandler(this.createControllerToolStripMenuItem_Click);
+            this.entityFromTagToolStripMenuItem.Name = "entityFromTagToolStripMenuItem";
+            this.entityFromTagToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.entityFromTagToolStripMenuItem.Text = "EntityFromTag";
+            this.entityFromTagToolStripMenuItem.Click += new System.EventHandler(this.entityFromTagToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -226,6 +235,7 @@
         private System.Windows.Forms.ToolStripMenuItem sPtoCodeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createRepositoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createControllerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem entityFromTagToolStripMenuItem;
     }
 }
 

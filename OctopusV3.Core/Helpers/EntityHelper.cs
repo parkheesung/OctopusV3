@@ -33,27 +33,6 @@ namespace OctopusV3.Core
             return result;
         }
 
-        public static bool ExistsColumn<T>(this T entity, string columnName) where T : IEntity
-        {
-            bool result = false;
-
-            Type type = entity.GetType();
-            var properties = type.GetProperties();
-            EntityAttribute temp = null;
-
-            foreach (PropertyInfo property in properties)
-            {
-                temp = property.GetEntity();
-                if (temp != null && temp.ColumnName.Equals(columnName, StringComparison.OrdinalIgnoreCase))
-                {
-                    result = true;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
         public static object GetValue<T>(this T entity, string columnName) where T : IEntity
         {
             object result = null;
@@ -68,6 +47,124 @@ namespace OctopusV3.Core
                 if (temp != null && temp.ColumnName.Equals(columnName, StringComparison.OrdinalIgnoreCase))
                 {
                     result = property.GetValue(entity);
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        public static Dictionary<string, object> toDictionary<T>(this T entity) where T : IEntity
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            Type type = entity.GetType();
+            var properties = type.GetProperties();
+            EntityAttribute temp = null;
+
+            foreach (PropertyInfo property in properties)
+            {
+                temp = property.GetEntity();
+                result.Add(temp.ColumnName, property.GetValue(temp.ColumnName));
+            }
+
+            return result;
+        }
+
+        public static ReturnValue toBetweenString<T>(this List<T> data, string columnName) where T : IEntity, new()
+        {
+            var result = new ReturnValue();
+
+            try
+            {
+                if (data != null && data.Count > 0)
+                {
+                    StringBuilder builder = new StringBuilder(200);
+                    T target = new T();
+
+                    Type type = target.GetType();
+                    PropertyInfo[] properties = type.GetProperties();
+                    EntityAttribute temp = null;
+                    int num = 0;
+                    foreach (var item in data)
+                    {
+                        foreach (PropertyInfo property in properties)
+                        {
+                            temp = property.GetEntity();
+                            if (temp.ColumnName.Equals(columnName, StringComparison.OrdinalIgnoreCase))
+                            {
+                                if (num > 0) builder.Append(",");
+                                builder.Append($"{item.GetValue(temp.ColumnName)}");
+                                num++;
+                            }
+                        }
+                    }
+
+                    string tmp = builder.ToString();
+                    if (!string.IsNullOrWhiteSpace(tmp))
+                    {
+                        result.Success(1);
+                        result.Value = tmp;
+                    }
+                    else
+                    {
+                        result.Error("대상이 없습니다.");
+                    }
+                }
+                else
+                {
+                    result.Error("대상이 없습니다.");
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Error(ex);
+            }
+
+            return result;
+        }
+
+        public static Dictionary<string, object> toDictionary<T>(this List<T> data, string columnName, string keyName) where T : IEntity, new()
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            T target = new T();
+
+            Type type = target.GetType();
+            PropertyInfo[] properties = type.GetProperties();
+            EntityAttribute temp = null;
+
+            if (data != null && data.Count > 0)
+            {
+                foreach (var item in data)
+                {
+                    foreach (PropertyInfo property in properties)
+                    {
+                        temp = property.GetEntity();
+                        if (temp.ColumnName.Equals(columnName, StringComparison.OrdinalIgnoreCase))
+                        {
+                            result.Add(keyName, item.GetValue(temp.ColumnName));
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public static bool Exists<T>(this T entity, string columnName) where T : IEntity
+        {
+            bool result = false;
+
+            Type type = entity.GetType();
+            var properties = type.GetProperties();
+            EntityAttribute temp = null;
+
+            foreach (PropertyInfo property in properties)
+            {
+                temp = property.GetEntity();
+                if (temp != null && temp.ColumnName.Equals(columnName, StringComparison.OrdinalIgnoreCase))
+                {
+                    result = true;
                     break;
                 }
             }

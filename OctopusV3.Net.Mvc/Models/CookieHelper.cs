@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -20,6 +21,35 @@ namespace OctopusV3.Net.Mvc
         public static void CookieSet(string key, string value, DateTime expireDate)
         {
             HttpContext.Current.Response.Cookies[key].Value = value;
+            HttpContext.Current.Response.Cookies[key].Expires = expireDate;
+        }
+
+        public static void CookieAdd(string key, string value)
+        {
+            StringBuilder builder = new StringBuilder(200);
+            string tmp = CookieGet(key);
+            builder.Append(tmp);
+            if (!string.IsNullOrWhiteSpace(tmp))
+            {
+                builder.Append(",");
+            }
+            builder.Append(value);
+
+            HttpContext.Current.Response.Cookies[key].Value = builder.ToString();
+        }
+
+        public static void CookieAdd(string key, string value, DateTime expireDate)
+        {
+            StringBuilder builder = new StringBuilder(200);
+            string tmp = CookieGet(key);
+            builder.Append(tmp);
+            if (!string.IsNullOrWhiteSpace(tmp))
+            {
+                builder.Append(",");
+            }
+            builder.Append(value);
+
+            HttpContext.Current.Response.Cookies[key].Value = builder.ToString();
             HttpContext.Current.Response.Cookies[key].Expires = expireDate;
         }
 
@@ -73,11 +103,44 @@ namespace OctopusV3.Net.Mvc
             }
             return list;
         }
+
+        public static List<long> ConvertLong(string arrStr)
+        {
+            Regex reg = new Regex("[0-9]{1,20}");
+            List<long> list = new List<long>();
+            if (arrStr != null && !String.IsNullOrWhiteSpace(arrStr))
+            {
+                string[] chk = arrStr.Split(',');
+                if (chk != null && chk.Length > 0)
+                {
+                    foreach (string chkValue in chk)
+                    {
+                        if (reg.IsMatch(chkValue))
+                        {
+                            list.Add(Convert.ToInt64(chkValue));
+                        }
+                    }
+                }
+            }
+            return list;
+        }
     }
 
     public static class ExtendCookieHelper
     {
         public static bool IsContain(this List<int> list, int target)
+        {
+            bool result = false;
+
+            if (list != null && list.Count > 0)
+            {
+                result = list.Where(x => x == target).Count() > 0;
+            }
+
+            return result;
+        }
+
+        public static bool IsContain(this List<long> list, long target)
         {
             bool result = false;
 

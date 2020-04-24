@@ -133,5 +133,14 @@ namespace OctopusV3.Builder
                 MessageBox.Show("Database가 연결된 상태가 아닙니다.  Setup을 먼저 진행해 주세요.");
             }
         }
+
+        private void entityFromTagToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EntityFromTagForm popup = new EntityFromTagForm(this);
+            popup.MdiParent = this;
+            popup.ShowIcon = false;
+            popup.WindowState = FormWindowState.Maximized;
+            popup.Show();
+        }
     }
 }
