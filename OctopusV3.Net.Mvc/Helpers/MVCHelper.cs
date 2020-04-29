@@ -298,6 +298,50 @@ namespace OctopusV3.Net.Mvc
             return result;
         }
 
+        public static List<T> FormListBinding<T>(this HttpRequestBase request) where T : new()
+        {
+            List<T> result = new List<T>();
+            T tmp = default(T);
+
+            if (request != null && request.Form.Count > 0)
+            {
+                Type type = result.GetType();
+                PropertyInfo[] properties = type.GetProperties();
+                foreach(string key in request.Form.AllKeys)
+                {
+                    tmp = new T();
+                    foreach (PropertyInfo property in properties)
+                    {
+                        if (request.Form[property.Name] != null)
+                        {
+                            try
+                            {
+                                if (request.Form[property.Name].ToString().Equals("true", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    property.SetValue(tmp, true);
+                                }
+                                else if (request.Form[property.Name].ToString().Equals("false", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    property.SetValue(tmp, false);
+                                }
+                                else
+                                {
+                                    property.SetValue(tmp, Convert.ChangeType(request.Form[property.Name], property.PropertyType), null);
+                                }
+                            }
+                            catch
+                            {
+                            }
+
+                            result.Add(tmp);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public static T GetBinding<T>(this HttpRequestBase request) where T : new()
         {
             T result = new T();
