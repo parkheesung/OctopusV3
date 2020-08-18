@@ -57,6 +57,7 @@ namespace OctopusV3.Data
             return DynamicQuery.Count<T>(whereStr);
         }
 
+
         public static string TryReturnValue(this string query)
         {
             StringBuilder builder = new StringBuilder(300);
@@ -314,6 +315,19 @@ namespace OctopusV3.Data
                 query.Append(" where " + whereStr);
             }
             return query.ToString();
+        }
+
+        public static string GroupBy<T>(string ValueColumn, string whereStr = "") where T : IEntity, new()
+        {
+            StringBuilder builder = new StringBuilder(200);
+            T data = new T();
+            builder.AppendLine($"SELECT {ValueColumn},Count(1) as Cnt FROM {data.TableName} with (nolock) ");
+            if (!string.IsNullOrWhiteSpace(whereStr))
+            {
+                builder.AppendLine($"Where {whereStr}");
+            }
+            builder.AppendLine($"Group by {ValueColumn}");
+            return builder.ToString();
         }
 
     }

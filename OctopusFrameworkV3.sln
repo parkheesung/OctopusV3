@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OctopusV3.Core", "OctopusV3.Core\OctopusV3.Core.csproj", "{666DA213-1E99-42BE-BFC4-F52DA0034580}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OctopusV3.Core", "OctopusV3.Core\OctopusV3.Core.csproj", "{666DA213-1E99-42BE-BFC4-F52DA0034580}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OctopusV3.Data", "OctopusV3.Data\OctopusV3.Data.csproj", "{43BFCD3A-B6CC-4EC8-9061-4D68AF15299A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OctopusV3.Data", "OctopusV3.Data\OctopusV3.Data.csproj", "{43BFCD3A-B6CC-4EC8-9061-4D68AF15299A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OctopusV3.DynamicHTML", "OctopusV3.DynamicHTML\OctopusV3.DynamicHTML.csproj", "{F025C49B-24FC-49B0-BB19-037AB9C408ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OctopusV3.DynamicHTML", "OctopusV3.DynamicHTML\OctopusV3.DynamicHTML.csproj", "{F025C49B-24FC-49B0-BB19-037AB9C408ED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OctopusV3.Net.Mvc", "OctopusV3.Net.Mvc\OctopusV3.Net.Mvc.csproj", "{3DD20389-D6CD-499B-B500-AFFABEDA386C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OctopusV3.Builder", "OctopusV3.Builder\OctopusV3.Builder.csproj", "{AF4776D0-2C40-4783-B95B-82A5E1776963}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OctopusV3.API", "OctopusV3.API\OctopusV3.API.csproj", "{0A6B812F-ADC7-4E45-B991-A19645A057C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{AF4776D0-2C40-4783-B95B-82A5E1776963}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF4776D0-2C40-4783-B95B-82A5E1776963}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF4776D0-2C40-4783-B95B-82A5E1776963}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A6B812F-ADC7-4E45-B991-A19645A057C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A6B812F-ADC7-4E45-B991-A19645A057C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A6B812F-ADC7-4E45-B991-A19645A057C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A6B812F-ADC7-4E45-B991-A19645A057C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

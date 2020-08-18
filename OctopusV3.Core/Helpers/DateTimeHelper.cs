@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security;
 
 namespace OctopusV3.Core
 {
@@ -48,6 +49,23 @@ namespace OctopusV3.Core
         {
             TimeSpan result = (ed > st) ? ed - st : st - ed;
             return result;
+        }
+
+        public static DateTime LastWeek(this DateTime st, DayOfWeek week)
+        {
+            if (st.DayOfWeek != week)
+            {
+                while(st.DayOfWeek != week)
+                {
+                    st = st.AddDays(-1);
+                }
+
+                return st;
+            }
+            else
+            {
+                return st;
+            }
         }
 
     }

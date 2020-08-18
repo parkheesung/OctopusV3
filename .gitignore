@@ -14,3 +14,5 @@
 /OctopusV3.Net.Mvc/bin/Debug
 /OctopusV3.Net.Mvc/obj/Debug
 /packages
+/OctopusV3.API/bin/Debug/netstandard2.0
+/OctopusV3.API/obj

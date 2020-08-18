@@ -232,6 +232,25 @@ namespace OctopusV3.Net.Mvc
             return MvcHtmlString.Create(result);
         }
 
+        public static MvcHtmlString ValueContain(this int originalValue, IEnumerable<int> list, string returnHTML)
+        {
+            string result = String.Empty;
+
+            if (list != null && list.Count() > 0)
+            {
+                foreach (var tmp in list)
+                {
+                    if (tmp == originalValue)
+                    {
+                        result = returnHTML;
+                        break;
+                    }
+                }
+            }
+
+            return MvcHtmlString.Create(result);
+        }
+
         public static MvcHtmlString ValueCompare(this DateTime original, DateTime target, string rtnValue)
         {
             if (original.Year == target.Year && original.Month == target.Month && original.Day == target.Day)

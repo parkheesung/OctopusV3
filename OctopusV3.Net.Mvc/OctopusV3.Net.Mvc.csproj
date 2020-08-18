@@ -69,6 +69,8 @@
     <Compile Include="Models\CookieHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Results\DynamicResult.cs" />
+    <Compile Include="Results\XmlResult.cs" />
+    <Compile Include="Results\XmlActionResult.cs" />
     <Compile Include="Results\ScriptResult.cs" />
     <Compile Include="Results\StyleResult.cs" />
   </ItemGroup>

@@ -19,6 +19,37 @@ namespace OctopusV3.Builder.EntityFrm
 
         protected string Query { get; set; } = string.Empty;
 
+        protected DataTable depends { get; set; }
+
+        protected string tableName { get; set; } = string.Empty;
+
+        public string ReturnType
+        {
+            get
+            {
+                string result = string.Empty;
+
+                if (!string.IsNullOrWhiteSpace(this.tableName))
+                {
+                    if (this.tableName.IndexOf(".") > -1)
+                    {
+                        result = this.tableName.Split('.')[1].Trim();
+                    }
+                    else
+                    {
+                        result = this.tableName.Trim();
+                    }
+                }
+
+                return result;
+            }
+
+            set
+            {
+                this.tableName = value;
+            }
+        }
+
         public SPtoCodeForm(MainForm _main)
         {
             InitializeComponent();
@@ -109,6 +140,22 @@ namespace OctopusV3.Builder.EntityFrm
                         spinfos = cmd.ExecuteList<SPInfo>();
                     }
 
+                    using (var cmd = new SqlCommand("sp_depends", main.SqlConn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.AddParameterInput("@objname", SqlDbType.NVarChar, spName, 776);
+                        this.depends = cmd.ExecuteTable();
+                        if (this.depends != null && this.depends.Rows.Count > 0)
+                        {
+                            this.ReturnType = Convert.ToString(this.depends.Rows[0].ItemArray[0]);
+                        }
+                    }
+
+                    if (string.IsNullOrWhiteSpace(this.ReturnType))
+                    {
+                        this.ReturnType = "object";
+                    }
+
                     if (IsMethod)
                     {
                         string NameOfSP = string.Empty;
@@ -123,7 +170,7 @@ namespace OctopusV3.Builder.EntityFrm
 
                         if (rtnType.Equals("ReturnValue", StringComparison.OrdinalIgnoreCase))
                         {
-                            builder.AppendLine($"public ReturnValue {NameOfSP}(object TargetModel)");
+                            builder.AppendLine($"public ReturnValue {NameOfSP}({this.ReturnType} TargetModel)");
                         }
                         else if (rtnType.Equals("List<T>", StringComparison.OrdinalIgnoreCase))
                         {
@@ -160,7 +207,18 @@ namespace OctopusV3.Builder.EntityFrm
                             }
                             else
                             {
-                                builder.AppendLine($"cmd.AddParameterInput(\"{info.name}\", System.Data.SqlDbType.{info.SqlType.ToString()}, TargetModel.{info.name.Replace("@", "")}, {info.max_length});");
+                                builder.Append($"cmd.AddParameterInput(\"{info.name}\", System.Data.SqlDbType.{info.SqlType.ToString()}, TargetModel.{info.name.Replace("@", "")}, ");
+                                switch (info.SqlType)
+                                {
+                                    case SqlDbType.NVarChar:
+                                    case SqlDbType.NChar:
+                                        builder.AppendLine($" {info.max_length / 2});");
+                                        break;
+                                    default:
+                                        builder.AppendLine($" {info.max_length});");
+                                        break;
+                                }
+                                
                             }
                         }
                     }
