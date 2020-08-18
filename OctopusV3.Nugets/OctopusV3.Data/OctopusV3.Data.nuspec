@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>OctopusFramework.V3.Data</id>
+    <version>0.0.1</version>
+    <title>OctopusFramework V3 .net Data Library</title>
+    <authors>Parkheesung</authors>
+    <owners>Parkheesung</owners>
+    <licenseUrl>https://github.com/parkheesung</licenseUrl>
+    <projectUrl>https://github.com/parkheesung/OctopusV3</projectUrl>
+    <iconUrl>https://s.gravatar.com/avatar/d1559a7d1431389a32f3ede25571ed2e?s=80</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>C# Data Library in .Net Framework</description>
+    <releaseNotes>First</releaseNotes>
+    <copyright>Copyright 2020</copyright>
+    <tags>OctopusFramework Octopus C# NetFramework</tags>
+	<dependencies>
+	<dependency id="OctopusFramework.V3.Core" version="0.0.1" />
+	<dependency id="System.Data.SqlClient" version="4.8.1" />
+	</dependencies>
+  </metadata>
+</package>

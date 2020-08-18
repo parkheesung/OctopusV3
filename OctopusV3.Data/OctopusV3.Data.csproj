@@ -12,4 +12,8 @@
     <ProjectReference Include="..\OctopusV3.Core\OctopusV3.Core.csproj" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy .\bin\debug\netstandard2.0\*Data.* D:\Projects\Private_Project\OctopusFrameworkV3\OctopusV3.Nugets\OctopusV3.Data\lib\netstandard2.0 /E /C /H /Y /Q /d&#xD;&#xA;" />
+  </Target>
+
 </Project>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>OctopusFramework.V3.API</id>
+    <version>0.0.1</version>
+    <title>OctopusFramework V3 .net API Library</title>
+    <authors>Parkheesung</authors>
+    <owners>Parkheesung</owners>
+    <licenseUrl>https://github.com/parkheesung</licenseUrl>
+    <projectUrl>https://github.com/parkheesung/OctopusV3</projectUrl>
+    <iconUrl>https://s.gravatar.com/avatar/d1559a7d1431389a32f3ede25571ed2e?s=80</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>C# API Library in .Net Framework</description>
+    <releaseNotes>First</releaseNotes>
+    <copyright>Copyright 2020</copyright>
+    <tags>OctopusFramework Octopus C# NetFramework API</tags>
+	<dependencies>
+	<dependency id="OctopusFramework.V3.Core" version="0.0.1" />
+	<dependency id="Google.Apis" version="1.46.0" />
+	<dependency id="Google.Apis.YouTube.v3" version="1.45.0" />
+	<dependency id="HtmlAgilityPack" version="1.11.24" />
+	</dependencies>
+  </metadata>
+</package>

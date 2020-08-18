@@ -16,3 +16,9 @@
 /packages
 /OctopusV3.API/bin/Debug/netstandard2.0
 /OctopusV3.API/obj
+/OctopusV3.Nugets/OctopusV3.API/lib/netstandard2.0
+*.nupkg
+/OctopusV3.Nugets/OctopusV3.Core/lib/netstandard2.0
+/OctopusV3.Nugets/OctopusV3.Data/lib/netstandard2.0
+/OctopusV3.Nugets/OctopusV3.DynamicHTML/lib/netstandard2.0
+/OctopusV3.Nugets/OctopusV3.Net.Mvc/lib/net46
