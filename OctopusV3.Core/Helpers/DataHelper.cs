@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Text;
 
 namespace OctopusV3.Core
 {
@@ -59,5 +60,25 @@ namespace OctopusV3.Core
 
             return result;
         }
+
+        public static string ToNumberHangle(this string number)
+        {
+            int iTotalLength = number.Length; 
+            int iLength = iTotalLength; 
+            byte[] cTmp = Encoding.ASCII.GetBytes(number);
+            StringBuilder builder = new StringBuilder(100);
+            for (int iCount = 0; iCount < iTotalLength; iCount++) 
+            { 
+                if (cTmp[iCount] - 48 != 0) 
+                { 
+                    builder.Append($"{NumberHan(cTmp[iCount] - 48)}{NumberUnit(iLength)}");
+                } 
+                iLength -= 1; 
+            }
+            return builder.ToString();
+        }
+
+        private static string NumberUnit(int iTmp) { string sTmp = ""; switch (iTmp) { case 0: { sTmp = ""; break; } case 1: { sTmp = ""; break; } case 2: { sTmp = "십"; break; } case 3: { sTmp = "백"; break; } case 4: { sTmp = "천"; break; } case 5: { sTmp = "만"; break; } case 6: { sTmp = "십"; break; } case 7: { sTmp = "백"; break; } case 8: { sTmp = "천"; break; } case 9: { sTmp = "억"; break; } case 10: { sTmp = "십"; break; } case 11: { sTmp = "백"; break; } case 12: { sTmp = "천"; break; } } return sTmp; }
+        private static string NumberHan(int iTmp) { string sTmp = ""; switch (iTmp) { case 0: { sTmp = ""; break; } case 1: { sTmp = "일"; break; } case 2: { sTmp = "이"; break; } case 3: { sTmp = "삼"; break; } case 4: { sTmp = "사"; break; } case 5: { sTmp = "오"; break; } case 6: { sTmp = "육"; break; } case 7: { sTmp = "칠"; break; } case 8: { sTmp = "팔"; break; } case 9: { sTmp = "구"; break; } } return sTmp; }
     }
 }
