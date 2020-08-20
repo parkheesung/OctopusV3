@@ -151,5 +151,10 @@ namespace OctopusV3.Core
         {
             return $"CurPage={this.CurPage}";
         }
+
+        public virtual string inPagingParams()
+        {
+            return $"";
+        }
     }
 }

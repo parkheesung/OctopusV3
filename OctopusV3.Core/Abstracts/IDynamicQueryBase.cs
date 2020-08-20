@@ -28,6 +28,8 @@ namespace OctopusV3.Core
 
         string Serialize();
 
+        string inPagingParams();
+
         string WhereString { get; set; }
 
     }
