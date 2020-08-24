@@ -9,10 +9,10 @@ namespace OctopusV3.Core
         public int Month { get; set; }
         public int Day { get; set; }
 
-        protected DateTime FirstDate { get; set; }
-        protected DateTime LastDate { get; set; }
+        public DateTime FirstDate { get; set; }
+        public DateTime LastDate { get; set; }
 
-        protected DateTime TargetDate { get; set; }
+        public DateTime TargetDate { get; set; }
 
         public List<DateTime> List { get; set; } = new List<DateTime>();
 
