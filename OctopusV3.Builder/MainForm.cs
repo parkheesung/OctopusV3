@@ -1,5 +1,6 @@
 ﻿using OctopusV3.Builder.ConfigFrm;
 using OctopusV3.Builder.EntityFrm;
+using OctopusV3.Builder.ToolFrm;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -137,6 +138,15 @@ namespace OctopusV3.Builder
         private void entityFromTagToolStripMenuItem_Click(object sender, EventArgs e)
         {
             EntityFromTagForm popup = new EntityFromTagForm(this);
+            popup.MdiParent = this;
+            popup.ShowIcon = false;
+            popup.WindowState = FormWindowState.Maximized;
+            popup.Show();
+        }
+
+        private void appendTextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AppendTextForm popup = new AppendTextForm(this);
             popup.MdiParent = this;
             popup.ShowIcon = false;
             popup.WindowState = FormWindowState.Maximized;

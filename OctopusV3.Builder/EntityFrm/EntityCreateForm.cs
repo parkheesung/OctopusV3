@@ -255,10 +255,24 @@ namespace OctopusV3.Builder.EntityFrm
                     case "int":
                     case "long":
                     case "double":
-                        builder.Append(" = 0;");
+                        if (column.is_identity)
+                        {
+                            builder.Append(" = -1;");
+                        }
+                        else
+                        {
+                            builder.Append(" = 0;");
+                        }
                         break;
                     case "bool":
-                        builder.Append(" = false;");
+                        if (column.ColumnName.Equals("IsEnabled", StringComparison.OrdinalIgnoreCase))
+                        {
+                            builder.Append(" = true;");
+                        }
+                        else
+                        {
+                            builder.Append(" = false;");
+                        }
                         break;
                 }
 
@@ -272,10 +286,10 @@ namespace OctopusV3.Builder.EntityFrm
             }
 
             builder.AppendLine("");
-            builder.Append("        public string TableName { get { return \"");
+            builder.Append("        public virtual string TableName { get { return \"");
             builder.Append(EntityName);
             builder.AppendLine("\"; } set { } }");
-            builder.Append("        public string TargetColumn { get { return \"");
+            builder.Append("        public virtual string TargetColumn { get { return \"");
             builder.Append(TargetColumn);
             builder.AppendLine("\"; } set { } }");
             builder.AppendLine("");
