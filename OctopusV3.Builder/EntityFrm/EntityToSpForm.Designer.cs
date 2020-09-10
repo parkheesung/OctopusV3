@@ -29,19 +29,22 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.LB_Table = new System.Windows.Forms.ListBox();
-            this.TB_Search = new System.Windows.Forms.TextBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.CB_TYPE = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.CB_Role = new System.Windows.Forms.ComboBox();
-            this.IsTransaction = new System.Windows.Forms.CheckBox();
             this.btn_load = new System.Windows.Forms.Button();
+            this.TB_Search = new System.Windows.Forms.TextBox();
+            this.LB_Table = new System.Windows.Forms.ListBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btn_copy = new System.Windows.Forms.Button();
+            this.btn_output = new System.Windows.Forms.Button();
+            this.IsTransaction = new System.Windows.Forms.CheckBox();
+            this.CB_Role = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.CB_TYPE = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.TB_Output = new System.Windows.Forms.TextBox();
-            this.btn_output = new System.Windows.Forms.Button();
-            this.btn_copy = new System.Windows.Forms.Button();
+            this.TB_Folder = new System.Windows.Forms.TextBox();
+            this.Btn_FindFolder = new System.Windows.Forms.Button();
+            this.btn_Save = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -56,10 +59,28 @@
             this.groupBox1.Controls.Add(this.LB_Table);
             this.groupBox1.Location = new System.Drawing.Point(13, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(216, 425);
+            this.groupBox1.Size = new System.Drawing.Size(216, 521);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tables&View";
+            // 
+            // btn_load
+            // 
+            this.btn_load.Location = new System.Drawing.Point(7, 22);
+            this.btn_load.Name = "btn_load";
+            this.btn_load.Size = new System.Drawing.Size(202, 30);
+            this.btn_load.TabIndex = 2;
+            this.btn_load.Text = "LOAD";
+            this.btn_load.UseVisualStyleBackColor = true;
+            this.btn_load.Click += new System.EventHandler(this.btn_load_Click);
+            // 
+            // TB_Search
+            // 
+            this.TB_Search.Location = new System.Drawing.Point(6, 56);
+            this.TB_Search.Name = "TB_Search";
+            this.TB_Search.Size = new System.Drawing.Size(203, 21);
+            this.TB_Search.TabIndex = 1;
+            this.TB_Search.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TB_Search_KeyUp);
             // 
             // LB_Table
             // 
@@ -70,21 +91,17 @@
             this.LB_Table.ItemHeight = 12;
             this.LB_Table.Location = new System.Drawing.Point(7, 81);
             this.LB_Table.Name = "LB_Table";
-            this.LB_Table.Size = new System.Drawing.Size(203, 340);
+            this.LB_Table.Size = new System.Drawing.Size(203, 436);
             this.LB_Table.TabIndex = 0;
-            // 
-            // TB_Search
-            // 
-            this.TB_Search.Location = new System.Drawing.Point(6, 56);
-            this.TB_Search.Name = "TB_Search";
-            this.TB_Search.Size = new System.Drawing.Size(203, 21);
-            this.TB_Search.TabIndex = 1;
-            this.TB_Search.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TB_Search_KeyUp);
+            this.LB_Table.SelectedIndexChanged += new System.EventHandler(this.LB_Table_SelectedIndexChanged);
             // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.btn_Save);
+            this.groupBox2.Controls.Add(this.Btn_FindFolder);
+            this.groupBox2.Controls.Add(this.TB_Folder);
             this.groupBox2.Controls.Add(this.btn_copy);
             this.groupBox2.Controls.Add(this.btn_output);
             this.groupBox2.Controls.Add(this.IsTransaction);
@@ -94,42 +111,40 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(235, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(553, 127);
+            this.groupBox2.Size = new System.Drawing.Size(589, 164);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Options";
             // 
-            // label1
+            // btn_copy
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 23);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "반환유형 :";
+            this.btn_copy.Location = new System.Drawing.Point(132, 105);
+            this.btn_copy.Name = "btn_copy";
+            this.btn_copy.Size = new System.Drawing.Size(107, 44);
+            this.btn_copy.TabIndex = 6;
+            this.btn_copy.Text = "COPY";
+            this.btn_copy.UseVisualStyleBackColor = true;
+            this.btn_copy.Click += new System.EventHandler(this.btn_copy_Click);
             // 
-            // CB_TYPE
+            // btn_output
             // 
-            this.CB_TYPE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_TYPE.FormattingEnabled = true;
-            this.CB_TYPE.Items.AddRange(new object[] {
-            "Void",
-            "ReturnValue",
-            "List<T>"});
-            this.CB_TYPE.Location = new System.Drawing.Point(85, 18);
-            this.CB_TYPE.Name = "CB_TYPE";
-            this.CB_TYPE.Size = new System.Drawing.Size(189, 20);
-            this.CB_TYPE.TabIndex = 1;
-            this.CB_TYPE.SelectedIndexChanged += new System.EventHandler(this.CB_TYPE_SelectedIndexChanged);
+            this.btn_output.Location = new System.Drawing.Point(19, 105);
+            this.btn_output.Name = "btn_output";
+            this.btn_output.Size = new System.Drawing.Size(107, 44);
+            this.btn_output.TabIndex = 5;
+            this.btn_output.Text = "OUTPUT";
+            this.btn_output.UseVisualStyleBackColor = true;
+            this.btn_output.Click += new System.EventHandler(this.btn_output_Click);
             // 
-            // label2
+            // IsTransaction
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(280, 21);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 12);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "구현유형 :";
+            this.IsTransaction.AutoSize = true;
+            this.IsTransaction.Location = new System.Drawing.Point(19, 83);
+            this.IsTransaction.Name = "IsTransaction";
+            this.IsTransaction.Size = new System.Drawing.Size(152, 16);
+            this.IsTransaction.TabIndex = 4;
+            this.IsTransaction.Text = "트랜잭션을 포함합니다.";
+            this.IsTransaction.UseVisualStyleBackColor = true;
             // 
             // CB_Role
             // 
@@ -147,25 +162,37 @@
             this.CB_Role.TabIndex = 3;
             this.CB_Role.SelectedIndexChanged += new System.EventHandler(this.CB_Role_SelectedIndexChanged);
             // 
-            // IsTransaction
+            // label2
             // 
-            this.IsTransaction.AutoSize = true;
-            this.IsTransaction.Location = new System.Drawing.Point(19, 48);
-            this.IsTransaction.Name = "IsTransaction";
-            this.IsTransaction.Size = new System.Drawing.Size(152, 16);
-            this.IsTransaction.TabIndex = 4;
-            this.IsTransaction.Text = "트랜잭션을 포함합니다.";
-            this.IsTransaction.UseVisualStyleBackColor = true;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(280, 21);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(61, 12);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "구현유형 :";
             // 
-            // btn_load
+            // CB_TYPE
             // 
-            this.btn_load.Location = new System.Drawing.Point(7, 22);
-            this.btn_load.Name = "btn_load";
-            this.btn_load.Size = new System.Drawing.Size(202, 30);
-            this.btn_load.TabIndex = 2;
-            this.btn_load.Text = "LOAD";
-            this.btn_load.UseVisualStyleBackColor = true;
-            this.btn_load.Click += new System.EventHandler(this.btn_load_Click);
+            this.CB_TYPE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TYPE.FormattingEnabled = true;
+            this.CB_TYPE.Items.AddRange(new object[] {
+            "Void",
+            "ReturnValue",
+            "List<T>"});
+            this.CB_TYPE.Location = new System.Drawing.Point(85, 18);
+            this.CB_TYPE.Name = "CB_TYPE";
+            this.CB_TYPE.Size = new System.Drawing.Size(189, 20);
+            this.CB_TYPE.TabIndex = 1;
+            this.CB_TYPE.SelectedIndexChanged += new System.EventHandler(this.CB_TYPE_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(17, 23);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(61, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "반환유형 :";
             // 
             // groupBox3
             // 
@@ -173,9 +200,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.TB_Output);
-            this.groupBox3.Location = new System.Drawing.Point(235, 146);
+            this.groupBox3.Location = new System.Drawing.Point(235, 182);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(553, 292);
+            this.groupBox3.Size = new System.Drawing.Size(589, 352);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Output";
@@ -194,34 +221,41 @@
             this.TB_Output.Name = "TB_Output";
             this.TB_Output.ReadOnly = true;
             this.TB_Output.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TB_Output.Size = new System.Drawing.Size(540, 265);
+            this.TB_Output.Size = new System.Drawing.Size(576, 325);
             this.TB_Output.TabIndex = 0;
             // 
-            // btn_output
+            // TB_Folder
             // 
-            this.btn_output.Location = new System.Drawing.Point(19, 70);
-            this.btn_output.Name = "btn_output";
-            this.btn_output.Size = new System.Drawing.Size(107, 44);
-            this.btn_output.TabIndex = 5;
-            this.btn_output.Text = "OUTPUT";
-            this.btn_output.UseVisualStyleBackColor = true;
-            this.btn_output.Click += new System.EventHandler(this.btn_output_Click);
+            this.TB_Folder.Location = new System.Drawing.Point(19, 53);
+            this.TB_Folder.Name = "TB_Folder";
+            this.TB_Folder.Size = new System.Drawing.Size(410, 21);
+            this.TB_Folder.TabIndex = 7;
             // 
-            // btn_copy
+            // Btn_FindFolder
             // 
-            this.btn_copy.Location = new System.Drawing.Point(132, 70);
-            this.btn_copy.Name = "btn_copy";
-            this.btn_copy.Size = new System.Drawing.Size(107, 44);
-            this.btn_copy.TabIndex = 6;
-            this.btn_copy.Text = "COPY";
-            this.btn_copy.UseVisualStyleBackColor = true;
-            this.btn_copy.Click += new System.EventHandler(this.btn_copy_Click);
+            this.Btn_FindFolder.Location = new System.Drawing.Point(435, 52);
+            this.Btn_FindFolder.Name = "Btn_FindFolder";
+            this.Btn_FindFolder.Size = new System.Drawing.Size(75, 23);
+            this.Btn_FindFolder.TabIndex = 8;
+            this.Btn_FindFolder.Text = "저장위치";
+            this.Btn_FindFolder.UseVisualStyleBackColor = true;
+            this.Btn_FindFolder.Click += new System.EventHandler(this.Btn_FindFolder_Click);
+            // 
+            // btn_Save
+            // 
+            this.btn_Save.Location = new System.Drawing.Point(245, 105);
+            this.btn_Save.Name = "btn_Save";
+            this.btn_Save.Size = new System.Drawing.Size(96, 44);
+            this.btn_Save.TabIndex = 9;
+            this.btn_Save.Text = "SAVE";
+            this.btn_Save.UseVisualStyleBackColor = true;
+            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
             // EntityToSpForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(836, 546);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -253,5 +287,8 @@
         private System.Windows.Forms.TextBox TB_Output;
         private System.Windows.Forms.Button btn_copy;
         private System.Windows.Forms.Button btn_output;
+        private System.Windows.Forms.Button Btn_FindFolder;
+        private System.Windows.Forms.TextBox TB_Folder;
+        private System.Windows.Forms.Button btn_Save;
     }
 }

@@ -4,10 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OctopusV3.Core;
 using OctopusV3.Data;
 
 namespace OctopusV3.Builder.EntityFrm
@@ -157,7 +159,7 @@ namespace OctopusV3.Builder.EntityFrm
                             {
                                 builder.AppendLine(",	@Code					bigint				output");
                                 builder.AppendLine(",	@Value					varchar(100)		output");
-                                builder.AppendLine(",	@Msg					nvarchar(100)		output");
+                                builder.AppendLine(",	@Msg					nvarchar(100)	output");
                             }
                             builder.AppendLine(")");
                             builder.AppendLine("AS");
@@ -207,7 +209,7 @@ namespace OctopusV3.Builder.EntityFrm
                                         }
                                         num++;
                                     }
-                                    builder.AppendLine(" where ");
+                                    builder.Append("where ");
                                     num = 0;
                                     foreach (DbTableInfo info in tableinfos.Where(x => x.is_identity))
                                     {
@@ -281,7 +283,7 @@ namespace OctopusV3.Builder.EntityFrm
                                     builder.AppendLine($"delete from [{entityName}]");
                                     if (tableinfos.Where(x => x.is_identity).Count() > 0)
                                     {
-                                        builder.AppendLine(" where ");
+                                        builder.Append("where ");
                                         num = 0;
                                         foreach (DbTableInfo info in tableinfos.Where(x => x.is_identity))
                                         {
@@ -328,7 +330,7 @@ namespace OctopusV3.Builder.EntityFrm
                                         }
                                         num++;
                                     }
-                                    builder.AppendLine(" where ");
+                                    builder.Append("where ");
                                     num = 0;
                                     foreach (DbTableInfo info in tableinfos.Where(x => x.is_identity))
                                     {
@@ -510,6 +512,68 @@ namespace OctopusV3.Builder.EntityFrm
         {
             Clipboard.SetText(this.Query);
             MessageBox.Show("복사했습니다.");
+        }
+
+        private void Btn_FindFolder_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog di = new FolderBrowserDialog();
+            if (di.ShowDialog() == DialogResult.OK)
+            {
+                TB_Folder.Text = di.SelectedPath;
+            }
+        }
+
+        private void btn_Save_Click(object sender, EventArgs e)
+        {
+            string fileURL = TB_Folder.Text;
+
+            if (!string.IsNullOrWhiteSpace(fileURL))
+            {
+                string entityName = LB_Table.SelectedItem.ToString();
+                string roleType = CB_Role.SelectedItem.ToString();  //Select,Update,Insert,Delete,Save
+                string fileName = $"ESP_{entityName}_{roleType}";
+                this.FileWrite(fileName, fileURL, true);
+            }
+            else
+            {
+                MessageBox.Show("파일 경로를 지정해 주세요.");
+            }
+        }
+
+        private bool FileWrite(string EntityName, string path, bool IsOverWrite)
+        {
+            bool result = false;
+
+            string body = this.Query.Trim();
+            if (!String.IsNullOrWhiteSpace(body))
+            {
+                string file_path = Path.Combine(path, $"{EntityName}.sql");
+                FileInfo fi = new FileInfo(file_path);
+                if (fi.Exists && !IsOverWrite)
+                {
+                    int num = 0;
+                    while (fi.Exists)
+                    {
+                        file_path = Path.Combine(path, $"{EntityName}[{num++}].sql");
+                        fi = new FileInfo(file_path);
+                    }
+                }
+
+                result = FileHelper.WriteFile(file_path, body, Encoding.UTF8, false);
+                MsgWrite($"{file_path} 파일을 생성했습니다.{Environment.NewLine}");
+            }
+            else
+            {
+                result = false;
+                MsgWrite("내용이 없습니다.");
+            }
+
+            return result;
+        }
+
+        private void LB_Table_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetResult();
         }
     }
 }
