@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btn_load = new System.Windows.Forms.Button();
+            this.btn_Table = new System.Windows.Forms.Button();
+            this.btn_output = new System.Windows.Forms.Button();
             this.btn_file = new System.Windows.Forms.Button();
             this.btn_Find = new System.Windows.Forms.Button();
             this.TB_Position = new System.Windows.Forms.TextBox();
@@ -41,10 +44,8 @@
             this.Chk_SP = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.TB_Output = new System.Windows.Forms.TextBox();
-            this.btn_output = new System.Windows.Forms.Button();
-            this.btn_Table = new System.Windows.Forms.Button();
-            this.btn_load = new System.Windows.Forms.Button();
             this.pBar = new System.Windows.Forms.ProgressBar();
+            this.Chk_Interface = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -53,6 +54,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.Chk_Interface);
             this.groupBox1.Controls.Add(this.btn_load);
             this.groupBox1.Controls.Add(this.btn_Table);
             this.groupBox1.Controls.Add(this.btn_output);
@@ -72,6 +74,36 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
+            // 
+            // btn_load
+            // 
+            this.btn_load.Location = new System.Drawing.Point(108, 103);
+            this.btn_load.Name = "btn_load";
+            this.btn_load.Size = new System.Drawing.Size(202, 38);
+            this.btn_load.TabIndex = 11;
+            this.btn_load.Text = "Data Load";
+            this.btn_load.UseVisualStyleBackColor = true;
+            this.btn_load.Click += new System.EventHandler(this.btn_load_Click);
+            // 
+            // btn_Table
+            // 
+            this.btn_Table.Location = new System.Drawing.Point(618, 103);
+            this.btn_Table.Name = "btn_Table";
+            this.btn_Table.Size = new System.Drawing.Size(112, 38);
+            this.btn_Table.TabIndex = 10;
+            this.btn_Table.Text = "TABLE OUTPUT";
+            this.btn_Table.UseVisualStyleBackColor = true;
+            this.btn_Table.Click += new System.EventHandler(this.btn_Table_Click);
+            // 
+            // btn_output
+            // 
+            this.btn_output.Location = new System.Drawing.Point(516, 103);
+            this.btn_output.Name = "btn_output";
+            this.btn_output.Size = new System.Drawing.Size(96, 38);
+            this.btn_output.TabIndex = 9;
+            this.btn_output.Text = "SP OUTPUT";
+            this.btn_output.UseVisualStyleBackColor = true;
+            this.btn_output.Click += new System.EventHandler(this.btn_output_Click);
             // 
             // btn_file
             // 
@@ -146,9 +178,9 @@
             this.Chk_Table.AutoSize = true;
             this.Chk_Table.Location = new System.Drawing.Point(414, 46);
             this.Chk_Table.Name = "Chk_Table";
-            this.Chk_Table.Size = new System.Drawing.Size(180, 16);
+            this.Chk_Table.Size = new System.Drawing.Size(150, 16);
             this.Chk_Table.TabIndex = 6;
-            this.Chk_Table.Text = "Table과 View를 포함합니다.";
+            this.Chk_Table.Text = "DefaultRepository 생성";
             this.Chk_Table.UseVisualStyleBackColor = true;
             // 
             // Chk_SP
@@ -194,36 +226,6 @@
             this.TB_Output.Size = new System.Drawing.Size(762, 198);
             this.TB_Output.TabIndex = 21;
             // 
-            // btn_output
-            // 
-            this.btn_output.Location = new System.Drawing.Point(516, 103);
-            this.btn_output.Name = "btn_output";
-            this.btn_output.Size = new System.Drawing.Size(96, 38);
-            this.btn_output.TabIndex = 9;
-            this.btn_output.Text = "SP OUTPUT";
-            this.btn_output.UseVisualStyleBackColor = true;
-            this.btn_output.Click += new System.EventHandler(this.btn_output_Click);
-            // 
-            // btn_Table
-            // 
-            this.btn_Table.Location = new System.Drawing.Point(618, 103);
-            this.btn_Table.Name = "btn_Table";
-            this.btn_Table.Size = new System.Drawing.Size(112, 38);
-            this.btn_Table.TabIndex = 10;
-            this.btn_Table.Text = "TABLE OUTPUT";
-            this.btn_Table.UseVisualStyleBackColor = true;
-            this.btn_Table.Click += new System.EventHandler(this.btn_Table_Click);
-            // 
-            // btn_load
-            // 
-            this.btn_load.Location = new System.Drawing.Point(108, 103);
-            this.btn_load.Name = "btn_load";
-            this.btn_load.Size = new System.Drawing.Size(202, 38);
-            this.btn_load.TabIndex = 11;
-            this.btn_load.Text = "Data Load";
-            this.btn_load.UseVisualStyleBackColor = true;
-            this.btn_load.Click += new System.EventHandler(this.btn_load_Click);
-            // 
             // pBar
             // 
             this.pBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -232,6 +234,16 @@
             this.pBar.Name = "pBar";
             this.pBar.Size = new System.Drawing.Size(775, 23);
             this.pBar.TabIndex = 21;
+            // 
+            // Chk_Interface
+            // 
+            this.Chk_Interface.AutoSize = true;
+            this.Chk_Interface.Location = new System.Drawing.Point(414, 68);
+            this.Chk_Interface.Name = "Chk_Interface";
+            this.Chk_Interface.Size = new System.Drawing.Size(100, 16);
+            this.Chk_Interface.TabIndex = 12;
+            this.Chk_Interface.Text = "Interface 생성";
+            this.Chk_Interface.UseVisualStyleBackColor = true;
             // 
             // CreateRepositoryForm
             // 
@@ -270,5 +282,6 @@
         private System.Windows.Forms.Button btn_Table;
         private System.Windows.Forms.Button btn_load;
         private System.Windows.Forms.ProgressBar pBar;
+        private System.Windows.Forms.CheckBox Chk_Interface;
     }
 }

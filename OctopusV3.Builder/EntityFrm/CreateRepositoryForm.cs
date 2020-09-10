@@ -84,6 +84,7 @@ namespace OctopusV3.Builder.EntityFrm
         {
             bool IsSP = Chk_SP.Checked;
             bool IsTable = Chk_Table.Checked;
+            bool IsInterface = Chk_Interface.Checked;
             string NameSpace = TB_NameSpace.Text;
             string Prefix = TB_Name.Text;
             string FilePath = TB_Position.Text;
@@ -99,14 +100,40 @@ namespace OctopusV3.Builder.EntityFrm
             {
                 MsgWrite("BaseRepository.cs 파일 생성이 실패하였습니다.");
             }
-            
+
+            if (IsInterface)
+            {
+                string file = Path.Combine(FilePath, $"IBaseRepository.cs");
+                if (FileHelper.WriteFile(file, CreateBaseInterface(NameSpace), Encoding.UTF8, false))
+                {
+                    MsgWrite($"IBaseRepository.cs 파일을 생성했습니다.");
+                }
+                else
+                {
+                    MsgWrite($"IBaseRepository.cs 파일 생성이 실패하였습니다.");
+                }
+            }
+
 
             if (IsTable)
             {
                 string file = Path.Combine(FilePath, $"DefaultRepository.cs");
-                if (FileHelper.WriteFile(file, CreateTableRepository(NameSpace), Encoding.UTF8, false))
+                if (FileHelper.WriteFile(file, CreateDefaultRepository(NameSpace), Encoding.UTF8, false))
                 {
                     MsgWrite("DefaultRepository.cs 파일을 생성했습니다.");
+
+                    if (IsInterface)
+                    {
+                        file = Path.Combine(FilePath, $"IDefaultRepository.cs");
+                        if (FileHelper.WriteFile(file, CreateDefaultInterface(NameSpace), Encoding.UTF8, false))
+                        {
+                            MsgWrite($"IDefaultRepository.cs 파일을 생성했습니다.");
+                        }
+                        else
+                        {
+                            MsgWrite($"IDefaultRepository.cs 파일 생성이 실패하였습니다.");
+                        }
+                    }
                 }
                 else
                 {
@@ -120,16 +147,31 @@ namespace OctopusV3.Builder.EntityFrm
                 if (FileHelper.WriteFile(file, CreateSpRepository(NameSpace, $"{Prefix}Repository", IsTable), Encoding.UTF8, false))
                 {
                     MsgWrite($"{Prefix}Repository.cs 파일을 생성했습니다.");
+                    file = Path.Combine(FilePath, $"I{Prefix}Repository.cs");
+                    if (FileHelper.WriteFile(file, CreateSpInterface(NameSpace, $"I{Prefix}Repository", IsTable), Encoding.UTF8, false))
+                    {
+                        MsgWrite($"I{Prefix}Repository.cs 파일을 생성했습니다.");
+
+                    }
+                    else
+                    {
+                        MsgWrite($"I{Prefix}Repository.cs 파일 생성이 실패하였습니다.");
+                    }
                 }
                 else
                 {
                     MsgWrite($"{Prefix}Repository.cs 파일 생성이 실패하였습니다.");
                 }
             }
+
+
         }
 
         protected virtual string CreateBaseRepository(string NameSpace)
         {
+            bool IsInterface = Chk_Interface.Checked;
+            string InterfaceString = (IsInterface) ? "IBaseRepository, " : "";
+
             StringBuilder builder = new StringBuilder(1000);
             builder.AppendLine("using System;");
             builder.AppendLine("using System.Data;");
@@ -140,10 +182,10 @@ namespace OctopusV3.Builder.EntityFrm
             builder.AppendLine("");
             builder.AppendLine($"namespace {NameSpace}");
             builder.AppendLine("{");
-            builder.AppendTabLine(1, $"public class BaseRepository : IDisposable");
+            builder.AppendTabLine(1, $"public class BaseRepository : {InterfaceString}IDisposable");
             builder.AppendTabLine(1, "{");
             builder.AppendTabLine(2, "private bool disposedValue = false;");
-            builder.AppendTabLine(2, "protected SqlConnection SqlConn { get; set; }");
+            builder.AppendTabLine(2, "public SqlConnection SqlConn { get; set; }");
             builder.AppendLine("");
             builder.AppendTabLine(2, "public ILogHelper Logger { get; set; }");
             builder.AppendLine("");
@@ -224,6 +266,9 @@ namespace OctopusV3.Builder.EntityFrm
 
         protected virtual string CreateSpRepository(string NameSpace, string ClassName, bool IsTable)
         {
+            bool IsInterface = Chk_Interface.Checked;
+            string InterfaceString = (IsInterface) ? $", I{ClassName}" : "";
+
             StringBuilder builder = new StringBuilder(1000);
             builder.AppendLine("using System;");
             builder.AppendLine("using System.Data.SqlClient;");
@@ -237,11 +282,11 @@ namespace OctopusV3.Builder.EntityFrm
             builder.AppendTab(1, $"public class {ClassName} : ");
             if (IsTable)
             {
-                builder.AppendLine("DefaultRepository");
+                builder.AppendLine($"DefaultRepository{InterfaceString}");
             }
             else
             {
-                builder.AppendLine("BaseRepository");
+                builder.AppendLine($"BaseRepository{InterfaceString}");
             }
             builder.AppendTabLine(1, "{");
 
@@ -415,8 +460,140 @@ namespace OctopusV3.Builder.EntityFrm
             return builder.ToString();
         }
 
-        protected virtual string CreateTableRepository(string NameSpace)
+        protected virtual string CreateSpInterface(string NameSpace, string ClassName, bool IsTable)
         {
+            StringBuilder builder = new StringBuilder(1000);
+            builder.AppendLine("using System;");
+            builder.AppendLine("using System.Data.SqlClient;");
+            builder.AppendLine("using System.Text;");
+            builder.AppendLine("using System.Collections.Generic;");
+            builder.AppendLine("using OctopusV3.Core;");
+            builder.AppendLine("using OctopusV3.Data;");
+            builder.AppendLine("");
+            builder.AppendLine($"namespace {NameSpace}");
+            builder.AppendLine("{");
+            builder.AppendTab(1, $"public interface {ClassName} : ");
+            if (IsTable)
+            {
+                builder.AppendLine("IDefaultRepository");
+            }
+            else
+            {
+                builder.AppendLine("IBaseRepository");
+            }
+            builder.AppendTabLine(1, "{");
+
+            if (sps != null && sps.Count > 0)
+            {
+                int num = 0;
+                string rtnValue = string.Empty;
+                string tableName = string.Empty;
+                string paramObject = string.Empty;
+
+                foreach (SPEntity sp in sps)
+                {
+                    tableName = "";
+                    rtnValue = "";
+                    paramObject = "";
+                    builder.AppendLine("");
+                    builder.AppendTab(2, "");
+                    if (spParams != null && spParams.Count > 0)
+                    {
+                        if (spParams.Where(x => x.SPName.Equals(sp.name, StringComparison.OrdinalIgnoreCase))
+                                        .Where(x => x.name.Equals("@Code", StringComparison.OrdinalIgnoreCase)
+                                                || x.name.Equals("@Msg", StringComparison.OrdinalIgnoreCase)
+                                                || x.name.Equals("@Value", StringComparison.OrdinalIgnoreCase)
+                        ).Count() > 0)
+                        {
+                            builder.Append("ReturnValue ");
+                            rtnValue = "var result = new ReturnValue();";
+                        }
+                        else if (withTable != null && withTable.Count() > 0 && withTable.Where(x => x.name.Equals(sp.name, StringComparison.OrdinalIgnoreCase)).Count() == 1)
+                        {
+                            tableName = withTable.CompareMin(sp.name, "Member");
+                            builder.Append($"List<{tableName}> ");
+                            rtnValue = $"var result = new List<{tableName}>();";
+                        }
+                        else
+                        {
+                            builder.Append("object ");
+                            rtnValue = "object result = null;";
+                        }
+                        builder.Append($"{sp.methodName}(");
+
+                        if (spParams.Where(x => x.SPName.Equals(sp.name, StringComparison.OrdinalIgnoreCase)).Count() > 0)
+                        {
+                            if (spParams.Where(x => x.SPName.Equals(sp.name, StringComparison.OrdinalIgnoreCase) && !x.is_output).Count() <= 3)
+                            {
+                                num = 0;
+                                foreach (var info in spParams.Where(x => x.SPName.Equals(sp.name, StringComparison.OrdinalIgnoreCase) && !x.is_output))
+                                {
+                                    if (num > 0) builder.Append(",");
+                                    builder.Append($"{info.BindType} {info.name.Replace("@", "")}");
+                                    num++;
+                                }
+                            }
+                            else if (withTable != null && withTable.Count() > 0 && withTable.Where(x => x.name.Equals(sp.name, StringComparison.OrdinalIgnoreCase)).Count() == 1)
+                            {
+                                tableName = withTable.CompareMin(sp.name, "Member");
+                                paramObject = tableName.ToLower();
+                                builder.Append($"{tableName} {tableName.ToLower()}");
+                            }
+                            else if (withTable != null && withTable.Count() > 0 && withTable.Where(x => sp.name.IndexOf(x.name) > -1).Count() == 1)
+                            {
+                                tableName = withTable.CompareMin(sp.name, "Member");
+                                paramObject = tableName.ToLower();
+                                builder.Append($"{tableName} {tableName.ToLower()}");
+                            }
+                            else
+                            {
+                                num = 0;
+                                foreach (var info in spParams.Where(x => x.SPName.Equals(sp.name, StringComparison.OrdinalIgnoreCase) && !x.is_output))
+                                {
+                                    if (num > 0) builder.Append(",");
+                                    builder.Append($"{info.BindType} {info.name.Replace("@", "")}");
+                                    num++;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (withTable != null && withTable.Count() > 0 && withTable.Where(x => x.name.Equals(sp.name, StringComparison.OrdinalIgnoreCase)).Count() > 0)
+                        {
+                            tableName = withTable.CompareMin(sp.name, "Member");
+                            if (!string.IsNullOrWhiteSpace(tableName))
+                            {
+                                builder.Append($"List<{tableName}> ");
+                                rtnValue = $"var result = new List<{tableName}>();";
+                            }
+                            else
+                            {
+                                builder.Append("void ");
+                            }
+                        }
+                        else
+                        {
+                            builder.Append("void ");
+                        }
+
+                        builder.Append($"{sp.methodName}(");
+                    }
+
+                    builder.AppendLine(");");
+                }
+            }
+
+            builder.AppendTabLine(1, "}");
+            builder.AppendLine("}");
+            return builder.ToString();
+        }
+
+        protected virtual string CreateDefaultRepository(string NameSpace)
+        {
+            bool IsInterface = Chk_Interface.Checked;
+            string InterfaceString = (IsInterface) ? ", IDefaultRepository" : "";
+
             StringBuilder builder = new StringBuilder(1000);
             builder.AppendLine("using System;");
             builder.AppendLine("using System.Data;");
@@ -429,7 +606,7 @@ namespace OctopusV3.Builder.EntityFrm
             builder.AppendLine("");
             builder.AppendLine($"namespace {NameSpace}");
             builder.AppendLine("{");
-            builder.AppendTabLine(1, $"public class DefaultRepository : BaseRepository");
+            builder.AppendTabLine(1, $"public class DefaultRepository : BaseRepository{InterfaceString}");
             builder.AppendTabLine(1, "{");
 
             builder.AppendTabLine(2, $"public DefaultRepository() : base()");
@@ -1072,6 +1249,100 @@ namespace OctopusV3.Builder.EntityFrm
             return builder.ToString();
         }
 
+        protected virtual string CreateBaseInterface(string NameSpace)
+        {
+            StringBuilder builder = new StringBuilder(1000);
+            builder.AppendLine("using System.Data;");
+            builder.AppendLine("using System.Data.SqlClient;");
+            builder.AppendLine("using OctopusV3.Core;");
+            builder.AppendLine("");
+            builder.AppendLine($"namespace {NameSpace}");
+            builder.AppendLine("{");
+            builder.AppendTabLine(1, $"public interface IBaseRepository");
+            builder.AppendTabLine(1, "{");
+            builder.AppendTabLine(2, "SqlConnection SqlConn { get; set; }");
+            builder.AppendLine("");
+            builder.AppendTabLine(2, "ILogHelper Logger { get; set; }");
+            builder.AppendLine("");
+            builder.AppendTabLine(2, "SqlConnection Connection { get; set; }");
+            builder.AppendLine("");
+            builder.AppendTabLine(2, "void Open(string connStr);");
+            builder.AppendLine("");
+            builder.AppendTabLine(2, "void Close();");
+            builder.AppendLine("");
+            builder.AppendTabLine(2, "void Dispose();");
+            builder.AppendLine("");
+            builder.AppendTabLine(2, "DataTable ExecuteTable(string query);");
+            builder.AppendLine("");
+            builder.AppendTabLine(2, "int ExecuteCount(string query);");
+            builder.AppendTabLine(1, "}");
+            builder.AppendLine("}");
+            return builder.ToString();
+        }
+
+        protected virtual string CreateDefaultInterface(string NameSpace)
+        {
+            StringBuilder builder = new StringBuilder(1000);
+            builder.AppendLine("using System.Collections.Generic;");
+            builder.AppendLine("using OctopusV3.Core;");
+            builder.AppendLine("");
+            builder.AppendLine($"namespace {NameSpace}");
+            builder.AppendLine("{");
+            builder.AppendTabLine(1, $"public interface IDefaultRepository : IBaseRepository");
+            builder.AppendTabLine(1, "{");
+
+            #region [ COMMON ]
+            builder.AppendTabLine(2, "ReturnValue ExecuteReturnValue(string query);");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "ReturnValue Erase<T>(string whereStr) where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "List<T> ExecuteModel<T>(string query) where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "T Single<T>(string whereStr, string OrderStr = \"\") where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "T Single<T>(string entity, string whereStr, string OrderStr = \"\") where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "List<T> Select<T>(string whereStr, string OrderStr = \"\") where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "List<T> Select<T>(string entity, string whereStr, string OrderStr = \"\") where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "List<T> Select<T>(string entity, int TopCount, string whereStr, string OrderStr = \"\") where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "List<T> Select<T>(int TopCount, string whereStr, string OrderStr = \"\") where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "List<T> Select<T>() where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "List<T> List<T>(IDynamicQuery paramData) where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "List<T> List<T>(string entity, IDynamicQuery paramData) where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "List<T> List<T>(ISubDynamicQuery paramData) where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "List<T> List<T>(string entity, ISubDynamicQuery paramData) where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "int Count<T>(IDynamicQueryBase paramData) where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "int Count<T>(string whereStr) where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "int Count(string entity, IDynamicQueryBase paramData);");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "ReturnValue Update<T>(string where, Dictionary<string, object> data) where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "ReturnValue Update<T>(string where, string Key, object Value) where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "ReturnValue Update(string entity, string where, string Key, object Value);");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "ReturnValue Update<T>(string entity, string where, Dictionary<string, object> data) where T : IEntity, new();");
+            builder.AppendTabLine(2, "");
+            builder.AppendTabLine(2, "List<T> GroupBy<T>(string ValueColumn, string whereStr = \"\") where T : IEntity, new();");
+            #endregion [ COMMON ]
+
+
+            builder.AppendTabLine(1, "}");
+            builder.AppendLine("}");
+            return builder.ToString();
+        }
+
         private string paramObjectName(string paramObject)
         {
             if (!string.IsNullOrWhiteSpace(paramObject))
@@ -1103,7 +1374,7 @@ namespace OctopusV3.Builder.EntityFrm
             string Prefix = TB_Name.Text;
 
             MsgClear();
-            MsgWrite(CreateTableRepository(NameSpace));
+            MsgWrite(CreateDefaultRepository(NameSpace));
         }
 
         private void btn_load_Click(object sender, EventArgs e)
