@@ -108,6 +108,8 @@ namespace OctopusV3.Builder.EntityFrm
             }
             else
             {
+                LB_SP.Items.Clear();
+
                 foreach (var table in this.data)
                 {
                     LB_SP.Items.Add(table.name);
