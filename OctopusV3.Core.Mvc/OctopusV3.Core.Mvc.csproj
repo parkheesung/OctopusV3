@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OctopusV3.Core\OctopusV3.Core.csproj" />
+    <ProjectReference Include="..\OctopusV3.Data\OctopusV3.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Results\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+  </ItemGroup>
+
+</Project>

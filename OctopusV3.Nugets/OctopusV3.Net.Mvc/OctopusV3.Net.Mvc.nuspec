@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>OctopusFramework.V3.Net.Mvc</id>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <title>OctopusFramework V3 .net Mvc Library</title>
     <authors>Parkheesung</authors>
     <owners>Parkheesung</owners>
@@ -11,7 +11,7 @@
     <iconUrl>https://s.gravatar.com/avatar/d1559a7d1431389a32f3ede25571ed2e?s=80</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>C# Net.Mvc Library in .Net Framework</description>
-    <releaseNotes>First</releaseNotes>
+    <releaseNotes>ValueContain Bug fix</releaseNotes>
     <copyright>Copyright 2020</copyright>
     <tags>OctopusFramework Octopus C# NetFramework Net.Mvc</tags>
 	<dependencies>

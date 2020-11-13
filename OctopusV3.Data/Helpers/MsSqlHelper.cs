@@ -81,6 +81,13 @@ namespace OctopusV3.Data
             cmd.AddParameterOutput("@Msg", SqlDbType.NVarChar, 100);
         }
 
+        public static void SetReturnValue(this SqlCommand cmd, int ValueSize)
+        {
+            cmd.AddParameterOutput("@Code", SqlDbType.BigInt);
+            cmd.AddParameterOutput("@Value", SqlDbType.VarChar, ValueSize);
+            cmd.AddParameterOutput("@Msg", SqlDbType.NVarChar, 100);
+        }
+
         public static object GetValue(this SqlCommand cmd, string name)
         {
             return cmd.Parameters[name].Value;
@@ -99,6 +106,13 @@ namespace OctopusV3.Data
         public static ReturnValue ExecuteReturnValue(this SqlCommand cmd)
         {
             cmd.SetReturnValue();
+            cmd.ExecuteNonQuery();
+            return cmd.GetReturnValue();
+        }
+
+        public static ReturnValue ExecuteReturnValue(this SqlCommand cmd, int ValueSize)
+        {
+            cmd.SetReturnValue(ValueSize);
             cmd.ExecuteNonQuery();
             return cmd.GetReturnValue();
         }

@@ -22,3 +22,5 @@
 /OctopusV3.Nugets/OctopusV3.Data/lib/netstandard2.0
 /OctopusV3.Nugets/OctopusV3.DynamicHTML/lib/netstandard2.0
 /OctopusV3.Nugets/OctopusV3.Net.Mvc/lib/net46
+/OctopusV3.Core.Mvc/bin/Debug/netcoreapp3.1
+/OctopusV3.Core.Mvc/obj

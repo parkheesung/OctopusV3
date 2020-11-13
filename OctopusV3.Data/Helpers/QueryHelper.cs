@@ -107,14 +107,14 @@ namespace OctopusV3.Data
         public static string Select<T>() where T : IEntity, new()
         {
             T target = new T();
-            return $"select * from {target.TableName} with (nolock)";
+            return $"select * from [{target.TableName}] with (nolock)";
         }
 
         public static string Select<T>(string whereStr) where T : IEntity, new()
         {
             T target = new T();
             StringBuilder builder = new StringBuilder(200);
-            builder.Append($"select * from {target.TableName} with (nolock)");
+            builder.Append($"select * from [{target.TableName}] with (nolock)");
             if (!string.IsNullOrWhiteSpace(whereStr))
             {
                 builder.Append($" where {whereStr}");
@@ -126,7 +126,7 @@ namespace OctopusV3.Data
         {
             T target = new T();
             StringBuilder builder = new StringBuilder(200);
-            builder.Append($"select * from {target.TableName} with (nolock)");
+            builder.Append($"select * from [{target.TableName}] with (nolock)");
             if (!string.IsNullOrWhiteSpace(whereStr))
             {
                 builder.Append($" where {whereStr}");
@@ -141,7 +141,7 @@ namespace OctopusV3.Data
         public static string Select(string entity, string whereStr, string orderBy)
         {
             StringBuilder builder = new StringBuilder(200);
-            builder.Append($"select * from {entity} with (nolock)");
+            builder.Append($"select * from [{entity}] with (nolock)");
             if (!string.IsNullOrWhiteSpace(whereStr))
             {
                 builder.Append($" where {whereStr}");
@@ -156,14 +156,14 @@ namespace OctopusV3.Data
         public static string Select<T>(int topCount) where T : IEntity, new()
         {
             T target = new T();
-            return $"select top {topCount} * from {target.TableName} with (nolock)";
+            return $"select top {topCount} * from [{target.TableName}] with (nolock)";
         }
 
         public static string Select<T>(int topCount, string whereStr) where T : IEntity, new()
         {
             T target = new T();
             StringBuilder builder = new StringBuilder(200);
-            builder.Append($"select top {topCount} * from {target.TableName} with (nolock)");
+            builder.Append($"select top {topCount} * from [{target.TableName}] with (nolock)");
             if (!string.IsNullOrWhiteSpace(whereStr))
             {
                 builder.Append($" where {whereStr}");
@@ -175,7 +175,7 @@ namespace OctopusV3.Data
         {
             T target = new T();
             StringBuilder builder = new StringBuilder(200);
-            builder.Append($"select top {topCount} * from {target.TableName} with (nolock)");
+            builder.Append($"select top {topCount} * from [{target.TableName}] with (nolock)");
             if (!string.IsNullOrWhiteSpace(whereStr))
             {
                 builder.Append($" where {whereStr}");
@@ -190,7 +190,7 @@ namespace OctopusV3.Data
         public static string Select(string entity, int topCount, string whereStr, string orderBy)
         {
             StringBuilder builder = new StringBuilder(200);
-            builder.Append($"select top {topCount} * from {entity} with (nolock)");
+            builder.Append($"select top {topCount} * from [{entity}] with (nolock)");
             if (!string.IsNullOrWhiteSpace(whereStr))
             {
                 builder.Append($" where {whereStr}");
@@ -212,6 +212,10 @@ namespace OctopusV3.Data
             if (!string.IsNullOrWhiteSpace(paramData.WhereString))
             {
                 query.Append(" where " + paramData.WhereString);
+            }
+            if (!string.IsNullOrWhiteSpace(paramData.OrderBy))
+            {
+                query.Append($" ORDER BY { paramData.OrderBy }");
             }
             query.Append(") AS resultTable");
             query.Append($" WHERE rownumber > {(paramData.CurPage - 1) * paramData.PageSize}");
@@ -237,6 +241,10 @@ namespace OctopusV3.Data
             {
                 query.Append(" where " + paramData.WhereString);
             }
+            if (!string.IsNullOrWhiteSpace(paramData.OrderBy))
+            {
+                query.Append($" ORDER BY { paramData.OrderBy }");
+            }
             query.Append(") AS resultTable");
             query.Append($" WHERE rownumber > {(paramData.CurPage - 1) * paramData.PageSize}");
             return query.ToString();
@@ -252,6 +260,10 @@ namespace OctopusV3.Data
             if (!string.IsNullOrWhiteSpace(paramData.WhereString))
             {
                 query.Append(" where " + paramData.WhereString);
+            }
+            if (!string.IsNullOrWhiteSpace(paramData.OrderBy))
+            {
+                query.Append($" ORDER BY { paramData.OrderBy }");
             }
             query.Append(") AS resultTable");
             query.Append($" WHERE rownumber > {(paramData.SubCurPage - 1) * paramData.SubPageSize}");
@@ -276,6 +288,10 @@ namespace OctopusV3.Data
             if (!string.IsNullOrWhiteSpace(paramData.WhereString))
             {
                 query.Append(" where " + paramData.WhereString);
+            }
+            if (!string.IsNullOrWhiteSpace(paramData.OrderBy))
+            {
+                query.Append($" ORDER BY { paramData.OrderBy }");
             }
             query.Append(") AS resultTable");
             query.Append($" WHERE rownumber > {(paramData.SubCurPage - 1) * paramData.SubPageSize}");
@@ -321,7 +337,7 @@ namespace OctopusV3.Data
         {
             StringBuilder builder = new StringBuilder(200);
             T data = new T();
-            builder.AppendLine($"SELECT {ValueColumn},Count(1) as Cnt FROM {data.TableName} with (nolock) ");
+            builder.AppendLine($"SELECT {ValueColumn},Count(1) as Cnt FROM [{data.TableName}] with (nolock) ");
             if (!string.IsNullOrWhiteSpace(whereStr))
             {
                 builder.AppendLine($"Where {whereStr}");

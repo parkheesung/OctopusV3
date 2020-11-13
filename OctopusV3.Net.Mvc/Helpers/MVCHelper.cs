@@ -200,7 +200,7 @@ namespace OctopusV3.Net.Mvc
             {
                 if ((originalValue != null && originalValue.Length > 0) && (compareValue != null && compareValue.Length > 0))
                 {
-                    if (originalValue.IndexOf(compareValue) > -1)
+                    if (originalValue.Trim().ToLower().IndexOf(compareValue.Trim().ToLower()) > -1)
                     {
                         result = returnHTML;
                     }
