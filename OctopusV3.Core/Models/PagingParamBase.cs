@@ -15,6 +15,8 @@ namespace OctopusV3.Core
 
         protected int lastPage { get; set; } = 1;
 
+        public int PerPageSize { get; set; } = 10;
+
         public int LastPage
         {
             get
@@ -37,7 +39,7 @@ namespace OctopusV3.Core
             }
         }
 
-        public string GetURL(int pageNum)
+        public virtual string GetURL(int pageNum)
         {
             StringBuilder builder = new StringBuilder(100);
             if (!string.IsNullOrWhiteSpace(this.URL))
@@ -56,14 +58,14 @@ namespace OctopusV3.Core
             return builder.ToString();
         }
 
-        public List<int> GetPaging()
+        public virtual List<int> GetPaging()
         {
             List<int> result = new List<int>();
 
             if (TotalPageCount > PageSize)
             {
                 int st = 1;
-                int ed = 10;
+                int ed = this.PerPageSize;
 
                 this.lastPage = TotalPageCount / PageSize;
                 int tmp = TotalPageCount % PageSize;
@@ -72,10 +74,10 @@ namespace OctopusV3.Core
                     this.lastPage++;
                 }
 
-                if (CurPage > PageSize)
+                if (CurPage > PerPageSize)
                 {
-                    st = (Convert.ToInt32(CurPage / 10) * 10) + 1;
-                    ed = st + 9;
+                    st = Convert.ToInt32(CurPage / this.PerPageSize) * this.PerPageSize + 1;
+                    ed = st + (this.PerPageSize - 1);
                 }
 
                 for(int i = st; i <= ed; i++)
@@ -103,8 +105,8 @@ namespace OctopusV3.Core
                     int tmp = this.GetPaging()[0];
                     if (tmp > this.PageSize)
                     {
-                        tmp = (Convert.ToInt32(tmp / 10) * 10) + 1;
-                        tmp = tmp - 10;
+                        tmp = (Convert.ToInt32(tmp / this.PerPageSize) * this.PerPageSize) + 1;
+                        tmp = tmp - this.PerPageSize;
                     }
                     else
                     {
@@ -128,7 +130,7 @@ namespace OctopusV3.Core
                     int tmp = this.GetPaging()[this.GetPaging().Count - 1];
                     if (tmp < this.LastPage)
                     {
-                        tmp = (Convert.ToInt32(tmp / 10) * 10) + 1;
+                        tmp = (Convert.ToInt32(tmp / this.PerPageSize) * this.PerPageSize) + 1;
                         if (tmp > this.LastPage)
                         {
                             tmp = this.LastPage;

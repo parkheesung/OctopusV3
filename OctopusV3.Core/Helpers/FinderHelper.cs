@@ -50,6 +50,28 @@ namespace OctopusV3.Core
             }
             return list;
         }
+
+        public static List<string> GetImages(string content)
+        {
+            var result = new List<string>();
+            if (!string.IsNullOrWhiteSpace(content))
+            {
+                var collection = Regex.Matches(content, "src\\s*=\\s*\"(?<url>.*?)\"");
+                if (collection != null && collection.Count > 0)
+                {
+                    foreach (Match item in collection)
+                    {
+                        result.Add(item.Groups["url"].Value);
+                    }
+                }
+            }
+            return result;
+        }
+
+        public static string RemoveTag(string input)
+        {
+            return Regex.Replace(input, "<.*?>", String.Empty);
+        }
     }
 
     public static class ExtendFinderHelper
@@ -76,6 +98,28 @@ namespace OctopusV3.Core
             }
 
             return result;
+        }
+
+        public static List<string> FindImages(this string content)
+        {
+            var result = new List<string>();
+            if (!string.IsNullOrWhiteSpace(content))
+            {
+                var collection = Regex.Matches(content, "src\\s*=\\s*\"(?<url>.*?)\"");
+                if (collection != null && collection.Count > 0)
+                {
+                    foreach (Match item in collection)
+                    {
+                        result.Add(item.Groups["url"].Value);
+                    }
+                }
+            }
+            return result;
+        }
+
+        public static string RemoveTag(this string input)
+        {
+            return Regex.Replace(input, "<.*?>", String.Empty);
         }
     }
 }

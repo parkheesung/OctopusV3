@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>OctopusFramework.V3.Net.Mvc</id>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <title>OctopusFramework V3 .net Mvc Library</title>
     <authors>Parkheesung</authors>
     <owners>Parkheesung</owners>
@@ -11,12 +11,13 @@
     <iconUrl>https://s.gravatar.com/avatar/d1559a7d1431389a32f3ede25571ed2e?s=80</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>C# Net.Mvc Library in .Net Framework</description>
-    <releaseNotes>ValueContain Bug fix</releaseNotes>
+    <releaseNotes>ImageHelper Added</releaseNotes>
     <copyright>Copyright 2020</copyright>
     <tags>OctopusFramework Octopus C# NetFramework Net.Mvc</tags>
 	<dependencies>
-	<dependency id="OctopusFramework.V3.Core" version="0.0.1" />
-	<dependency id="OctopusFramework.V3.Data" version="0.0.1" />
+	<dependency id="OctopusFramework.V3.Core" version="0.1.0" />
+	<dependency id="OctopusFramework.V3.Data" version="0.0.6" />
+	<dependency id="System.Drawing" version="4.0.0" />
 	</dependencies>
   </metadata>
 </package>

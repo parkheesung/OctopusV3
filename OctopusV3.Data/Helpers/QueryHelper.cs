@@ -47,6 +47,16 @@ namespace OctopusV3.Data
             return DynamicQuery.List<T>(paramData);
         }
 
+        public static string List<T>(this IDynamicQuery paramData, string appendWhere) where T : IEntity, new()
+        {
+            return DynamicQuery.List<T>(paramData, appendWhere);
+        }
+
+        public static string List<T>(this ISubDynamicQuery paramData, string appendWhere) where T : IEntity, new()
+        {
+            return DynamicQuery.List<T>(paramData, appendWhere);
+        }
+
         public static string Count<T>(this IDynamicQueryBase paramData) where T : IEntity, new()
         {
             return DynamicQuery.Count<T>(paramData);
@@ -57,6 +67,10 @@ namespace OctopusV3.Data
             return DynamicQuery.Count<T>(whereStr);
         }
 
+        public static string Count<T>(this IDynamicQueryBase paramData, string appendWhere) where T : IEntity, new()
+        {
+            return DynamicQuery.Count<T>(paramData, appendWhere);
+        }
 
         public static string TryReturnValue(this string query)
         {
@@ -298,6 +312,146 @@ namespace OctopusV3.Data
             return query.ToString();
         }
 
+        public static string List(string EntityName, IDynamicQuery paramData, string appendWhere)
+        {
+            StringBuilder query = new StringBuilder(200);
+            query.Append($"SELECT TOP ({paramData.PageSize}) resultTable.* FROM");
+            query.Append($"( SELECT TOP ({paramData.PageSize * paramData.CurPage}) ROW_NUMBER () OVER ");
+            query.Append($" (ORDER BY { paramData.OrderBy }) AS rownumber, *");
+            query.Append($" FROM [{EntityName}]");
+            if (!string.IsNullOrWhiteSpace(paramData.WhereString))
+            {
+                query.Append(" where " + paramData.WhereString);
+                if (!string.IsNullOrWhiteSpace(appendWhere))
+                {
+                    query.Append($" and {appendWhere}");
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(appendWhere))
+                {
+                    query.Append($" where {appendWhere}");
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(paramData.OrderBy))
+            {
+                query.Append($" ORDER BY { paramData.OrderBy }");
+            }
+            query.Append(") AS resultTable");
+            query.Append($" WHERE rownumber > {(paramData.CurPage - 1) * paramData.PageSize}");
+            return query.ToString();
+        }
+
+        public static string List<T>(IDynamicQuery paramData, string appendWhere) where T : IEntity, new()
+        {
+            T target = new T();
+            StringBuilder query = new StringBuilder(200);
+            query.Append($"SELECT TOP ({paramData.PageSize}) resultTable.* FROM");
+            query.Append($"( SELECT TOP ({paramData.PageSize * paramData.CurPage}) ROW_NUMBER () OVER ");
+            if (!string.IsNullOrWhiteSpace(paramData.OrderBy))
+            {
+                query.Append($" (ORDER BY { paramData.OrderBy }) AS rownumber, *");
+            }
+            else
+            {
+                query.Append($" (ORDER BY { target.TargetColumn } desc) AS rownumber, *");
+            }
+            query.Append($" FROM [{target.TableName}]");
+            if (!string.IsNullOrWhiteSpace(paramData.WhereString))
+            {
+                query.Append(" where " + paramData.WhereString);
+                if (!string.IsNullOrWhiteSpace(appendWhere))
+                {
+                    query.Append($" and {appendWhere}");
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(appendWhere))
+                {
+                    query.Append($" where {appendWhere}");
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(paramData.OrderBy))
+            {
+                query.Append($" ORDER BY { paramData.OrderBy }");
+            }
+            query.Append(") AS resultTable");
+            query.Append($" WHERE rownumber > {(paramData.CurPage - 1) * paramData.PageSize}");
+            return query.ToString();
+        }
+
+        public static string List(string EntityName, ISubDynamicQuery paramData, string appendWhere)
+        {
+            StringBuilder query = new StringBuilder(200);
+            query.Append($"SELECT TOP ({paramData.SubPageSize}) resultTable.* FROM");
+            query.Append($"( SELECT TOP ({paramData.SubPageSize * paramData.SubCurPage}) ROW_NUMBER () OVER ");
+            query.Append($" (ORDER BY { paramData.OrderBy }) AS rownumber, *");
+            query.Append($" FROM [{EntityName}]");
+            if (!string.IsNullOrWhiteSpace(paramData.WhereString))
+            {
+                query.Append(" where " + paramData.WhereString);
+                if (!string.IsNullOrWhiteSpace(appendWhere))
+                {
+                    query.Append($" and {appendWhere}");
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(appendWhere))
+                {
+                    query.Append($" where {appendWhere}");
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(paramData.OrderBy))
+            {
+                query.Append($" ORDER BY { paramData.OrderBy }");
+            }
+            query.Append(") AS resultTable");
+            query.Append($" WHERE rownumber > {(paramData.SubCurPage - 1) * paramData.SubPageSize}");
+            return query.ToString();
+        }
+
+        public static string List<T>(ISubDynamicQuery paramData, string appendWhere) where T : IEntity, new()
+        {
+            T target = new T();
+            StringBuilder query = new StringBuilder(200);
+            query.Append($"SELECT TOP ({paramData.SubPageSize}) resultTable.* FROM");
+            query.Append($"( SELECT TOP ({paramData.SubPageSize * paramData.SubCurPage}) ROW_NUMBER () OVER ");
+            if (!string.IsNullOrWhiteSpace(paramData.OrderBy))
+            {
+                query.Append($" (ORDER BY { paramData.OrderBy }) AS rownumber, *");
+            }
+            else
+            {
+                query.Append($" (ORDER BY { target.TargetColumn } desc) AS rownumber, *");
+            }
+            query.Append($" FROM [{target.TableName}]");
+            if (!string.IsNullOrWhiteSpace(paramData.WhereString))
+            {
+                query.Append(" where " + paramData.WhereString);
+                if (!string.IsNullOrWhiteSpace(appendWhere))
+                {
+                    query.Append($" and {appendWhere}");
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(appendWhere))
+                {
+                    query.Append($" where {appendWhere}");
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(paramData.OrderBy))
+            {
+                query.Append($" ORDER BY { paramData.OrderBy }");
+            }
+            query.Append(") AS resultTable");
+            query.Append($" WHERE rownumber > {(paramData.SubCurPage - 1) * paramData.SubPageSize}");
+            return query.ToString();
+        }
+
         public static string Count<T>(IDynamicQueryBase paramData) where T : IEntity, new()
         {
             T target = new T();
@@ -333,6 +487,51 @@ namespace OctopusV3.Data
             return query.ToString();
         }
 
+        public static string Count<T>(IDynamicQueryBase paramData, string appendWhere) where T : IEntity, new()
+        {
+            T target = new T();
+            StringBuilder query = new StringBuilder(200);
+            query.Append($"SELECT Count(1) FROM [{target.TableName}]");
+            if (!string.IsNullOrWhiteSpace(paramData.WhereString))
+            {
+                query.Append(" where " + paramData.WhereString);
+                if (!string.IsNullOrWhiteSpace(appendWhere))
+                {
+                    query.Append($" and {appendWhere}");
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(appendWhere))
+                {
+                    query.Append($" where {appendWhere}");
+                }
+            }
+            return query.ToString();
+        }
+
+        public static string Count(string EntityName, IDynamicQueryBase paramData, string appendWhere)
+        {
+            StringBuilder query = new StringBuilder(200);
+            query.Append($"SELECT Count(1) FROM [{EntityName}]");
+            if (!string.IsNullOrWhiteSpace(paramData.WhereString))
+            {
+                query.Append(" where " + paramData.WhereString);
+                if (!string.IsNullOrWhiteSpace(appendWhere))
+                {
+                    query.Append($" and {appendWhere}");
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(appendWhere))
+                {
+                    query.Append($" where {appendWhere}");
+                }
+            }
+            return query.ToString();
+        }
+
         public static string GroupBy<T>(string ValueColumn, string whereStr = "") where T : IEntity, new()
         {
             StringBuilder builder = new StringBuilder(200);
@@ -345,6 +544,7 @@ namespace OctopusV3.Data
             builder.AppendLine($"Group by {ValueColumn}");
             return builder.ToString();
         }
+
 
     }
 }
