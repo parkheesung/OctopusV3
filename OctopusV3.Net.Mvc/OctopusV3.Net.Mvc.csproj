@@ -92,7 +92,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy .\OctopusV3.Net.Mvc.* D:\Projects\Private_Project\OctopusFrameworkV3\OctopusV3.Nugets\OctopusV3.Net.Mvc\lib\net46 /E /C /H /Y /Q /d
+    <PostBuildEvent>echo xcopy .\OctopusV3.Net.Mvc.* D:\Projects\Private_Project\OctopusFrameworkV3\OctopusV3.Nugets\OctopusV3.Net.Mvc\lib\net46 /E /C /H /Y /Q /d
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

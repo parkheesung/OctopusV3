@@ -2,19 +2,19 @@
 # 이 .gitignore 파일은 Microsoft(R) Visual Studio에서 자동으로 만들어졌습니다.
 ################################################################################
 
-/.vs/OctopusFrameworkV3
-/OctopusV3.Builder/bin/Debug
-/OctopusV3.Builder/obj/Debug
-/OctopusV3.Core/bin/Debug/netstandard2.0
+/.vs
+/OctopusV3.Builder/bin
+/OctopusV3.Builder/obj
+/OctopusV3.Core/bin
 /OctopusV3.Core/obj
-/OctopusV3.Data/bin/Debug/netstandard2.0
+/OctopusV3.Data/bin
 /OctopusV3.Data/obj
-/OctopusV3.DynamicHTML/bin/Debug/netstandard2.0
+/OctopusV3.DynamicHTML/bin
 /OctopusV3.DynamicHTML/obj
-/OctopusV3.Net.Mvc/bin/Debug
-/OctopusV3.Net.Mvc/obj/Debug
+/OctopusV3.Net.Mvc/bin
+/OctopusV3.Net.Mvc/obj
 /packages
-/OctopusV3.API/bin/Debug/netstandard2.0
+/OctopusV3.API/bin/Debug
 /OctopusV3.API/obj
 /OctopusV3.Nugets/OctopusV3.API/lib/netstandard2.0
 *.nupkg
@@ -24,3 +24,5 @@
 /OctopusV3.Nugets/OctopusV3.Net.Mvc/lib/net46
 /OctopusV3.Core.Mvc/bin/Debug/netcoreapp3.1
 /OctopusV3.Core.Mvc/obj
+/OctopusV3.Image/bin/Debug
+/OctopusV3.Image/obj

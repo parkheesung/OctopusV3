@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis" Version="1.46.0" />
+    <PackageReference Include="FirebaseAdmin" Version="2.0.0" />
     <PackageReference Include="Google.Apis.YouTube.v3" Version="1.45.0.1929" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
   </ItemGroup>
@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy .\bin\debug\netstandard2.0\OctopusV3.API.* D:\Projects\Private_Project\OctopusFrameworkV3\OctopusV3.Nugets\OctopusV3.API\lib\netstandard2.0 /E /C /H /Y /Q /d&#xD;&#xA;" />
+    <Exec Command="xcopy .\bin\debug\netstandard2.0\OctopusV3.API.* D:\PrivateProjects\OctopusV3\OctopusV3\OctopusV3.Nugets\OctopusV3.API\lib\netstandard2.0\ /E /C /H /Y /Q /d&#xD;&#xA;" />
   </Target>
 
 </Project>
